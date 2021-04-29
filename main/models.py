@@ -5,7 +5,7 @@ from django.contrib.auth import get_user_model
 User = get_user_model()
 
 class Category(MPTTModel):
-    name = models.CharField(max_length=50, unique=True)
+    name = models.CharField(max_length=50)
     slug = models.SlugField(unique=True)
     parent = TreeForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='children')
 
@@ -52,5 +52,3 @@ class Customer(models.Model):
 
     def __str__(self):
         return 'Клієнт: {} {}'.format(self.user.first_name, self.user.last_name)
-
-

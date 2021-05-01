@@ -1,4 +1,7 @@
+{% extends 'index.html' %}
 {% load mptt_tags %}
+{% block title %}categories{% endblock %}
+{% block content %}
 <ul>
     {% recursetree categories %}
         <li>
@@ -11,3 +14,4 @@
         </li>
     {% endrecursetree %}
 </ul>
+{% endblock %}

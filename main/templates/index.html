@@ -33,7 +33,7 @@
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav m-auto">
           <li class="nav-item active">
-            <a class="nav-link" href="#">Home
+            <a class="nav-link" href="/">Home
               <span class="sr-only">(current)</span>
             </a>
           </li>
@@ -44,42 +44,42 @@
             <a class="nav-link" href="#">Contact</a>
           </li>
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown">Хлопець</a>
+            <a class="nav-link dropdown-toggle" role="button" data-toggle="dropdown">Хлопець</a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                 {% for item in boys %}
-                <a class="dropdown-item" href="#">{{ item.name }}</a>
+                <a class="dropdown-item" href="{% url 'cat_det' item.slug %}">{{ item.name }}</a>
                 {% endfor %}
             </div>
           </li>
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown">Дівчина</a>
+            <a class="nav-link dropdown-toggle" role="button" data-toggle="dropdown">Дівчина</a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                 {% for item in girls %}
-                <a class="dropdown-item" href="#">{{ item.name }}</a>
+                <a class="dropdown-item" href="{% url 'cat_det' item.slug %}">{{ item.name }}</a>
                 {% endfor %}
             </div>
           </li>
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown">Baby</a>
+            <a class="nav-link dropdown-toggle" role="button" data-toggle="dropdown">Baby</a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                 {% for item in baby %}
-                <a class="dropdown-item" href="#">{{ item.name }}</a>
+                <a class="dropdown-item" href="{% url 'cat_det' item.slug %}">{{ item.name }}</a>
                 {% endfor %}
             </div>
           </li>
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown">Іграшки</a>
+            <a class="nav-link dropdown-toggle" role="button" data-toggle="dropdown">Іграшки</a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                 {% for item in toys %}
-                <a class="dropdown-item" href="#">{{ item.name }}</a>
+                <a class="dropdown-item" href="{% url 'cat_det' item.slug %}">{{ item.name }}</a>
                 {% endfor %}
             </div>
           </li>
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown">Спорт</a>
+            <a class="nav-link dropdown-toggle" role="button" data-toggle="dropdown">Спорт</a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                 {% for item in sport %}
-                <a class="dropdown-item" href="#">{{ item.name }}</a>
+                <a class="dropdown-item" href="{% url 'cat_det' item.slug %}">{{ item.name }}</a>
                 {% endfor %}
             </div>
           </li>
@@ -87,7 +87,6 @@
       </div>
     </div>
   </nav>
-  {% block content %}
   <!-- Page Content -->
   <div class="container">
 
@@ -95,18 +94,65 @@
 
       <div class="col-lg-3">
 
-        <h1 class="my-4">Казка</h1>
+        <h3 class="my-4">Категорії</h3>
         <div class="list-group">
-          <a href="#" class="list-group-item">Category 1</a>
-          <a href="#" class="list-group-item">Category 2</a>
-          <a href="#" class="list-group-item">Category 3</a>
+          <div class="btn-group dropright">
+            <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Хлопець
+            </button>
+            <div class="dropdown-menu">
+               {% for item in boys %}
+                <a class="dropdown-item" href="{% url 'cat_det' item.slug %}">{{ item.name }}</a>
+                {% endfor %}
+            </div>
+          </div>
+          <div class="btn-group dropright">
+            <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Дівчина
+            </button>
+            <div class="dropdown-menu">
+               {% for item in girls %}
+                <a class="dropdown-item" href="{% url 'cat_det' item.slug %}">{{ item.name }}</a>
+                {% endfor %}
+            </div>
+          </div>
+          <div class="btn-group dropright">
+            <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Baby
+            </button>
+            <div class="dropdown-menu">
+               {% for item in baby %}
+                <a class="dropdown-item" href="{% url 'cat_det' item.slug %}">{{ item.name }}</a>
+                {% endfor %}
+            </div>
+          </div>
+          <div class="btn-group dropright">
+            <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Іграшки
+            </button>
+            <div class="dropdown-menu">
+               {% for item in toys %}
+                <a class="dropdown-item" href="{% url 'cat_det' item.slug %}">{{ item.name }}</a>
+                {% endfor %}
+            </div>
+          </div>
+          <div class="btn-group dropright">
+            <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Спорт
+            </button>
+            <div class="dropdown-menu">
+               {% for item in sport %}
+                <a class="dropdown-item" href="{% url 'cat_det' item.slug %}">{{ item.name }}</a>
+                {% endfor %}
+            </div>
+          </div>
         </div>
 
       </div>
       <!-- /.col-lg-3 -->
 
       <div class="col-lg-9">
-
+        {% block content %}
         <div id="carouselExampleIndicators" class="carousel slide my-4" data-ride="carousel">
           <ol class="carousel-indicators">
             <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
@@ -138,7 +184,7 @@
 
           <div class="col-lg-4 col-md-6 mb-4">
             <div class="card h-100">
-              <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
+              <a href="#"><img class="card-img-top" src="media/bb.jpg" alt=""></a>
               <div class="card-body">
                 <h4 class="card-title">
                   <a href="#">Item One</a>
@@ -234,13 +280,12 @@
 
         </div>
         <!-- /.row -->
-
+        {% endblock %}
       </div>
       <!-- /.col-lg-9 -->
 
     </div>
     <!-- /.row -->
-    {% endblock %}
 
   </div>
   <!-- /.container -->

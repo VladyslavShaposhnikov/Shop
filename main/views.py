@@ -13,42 +13,25 @@ baby = get_cat(9)
 toys = get_cat(10)
 sport = get_cat(11)
 
-
+context = {
+    'boys'  :boys,
+    'girls' :girls,
+    'baby'  :baby,
+    'toys'  :toys,
+    'sport' :sport,
+}
 
 def index(request):
-    return render(request, 'index.html', {
-        'boys'  :boys,
-        'girls' :girls,
-        'baby'  :baby,
-        'toys'  :toys,
-        'sport' :sport,
-        })
+    return render(request, 'index.html', context)
 
 def show_categories(request):
-    return render(request, "categories.html", {'categories':Category.objects.all(),
-                                                'boys'     :boys,
-                                                'girls'    :girls,
-                                                'baby'     :baby,
-                                                'toys'     :toys,
-                                                'sport'    :sport,
-                                                })
+    context['categories'] = Category.objects.all()
+    return render(request, "categories.html", context)
 
 def productdetail(request,slug):
-    product = BoyGirlBaby.objects.get(slug=slug)
-    return render(request, 'product_detaile.html', {'product':product,
-                                                    'boys'   :boys,
-                                                    'girls'  :girls,
-                                                    'baby'   :baby,
-                                                    'toys'   :toys,
-                                                    'sport'  :sport,
-                                                })
+    context['product'] = BoyGirlBaby.objects.get(slug=slug)
+    return render(request, 'product_detaile.html', context)
 
 def categorydetail(request,slug):
-    category = Category.objects.get(slug=slug)
-    return render(request, 'category_detail.html', {'category':category,
-                                                    'boys'   :boys,
-                                                    'girls'  :girls,
-                                                    'baby'   :baby,
-                                                    'toys'   :toys,
-                                                    'sport'  :sport,
-                                                })
+    context['category'] = Category.objects.get(slug=slug)
+    return render(request, 'category_detail.html', context)

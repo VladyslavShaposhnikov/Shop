@@ -31,56 +31,21 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarResponsive">
-        <ul class="navbar-nav m-auto">
+        <ul class="navbar-nav ml-auto">
           <li class="nav-item active">
-            <a class="nav-link" href="/">Home
+            <a class="nav-link" href="/">Головна
               <span class="sr-only">(current)</span>
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">About</a>
+            <a class="nav-link" href="#">Про нас</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Contact</a>
+            <a class="nav-link" href="#">Контакти</a>
           </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" role="button" data-toggle="dropdown">Хлопець</a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                {% for item in boys %}
-                <a class="dropdown-item" href="{% url 'cat_det' item.slug %}">{{ item.name }}</a>
-                {% endfor %}
-            </div>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Корзина</a>
           </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" role="button" data-toggle="dropdown">Дівчина</a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                {% for item in girls %}
-                <a class="dropdown-item" href="{% url 'cat_det' item.slug %}">{{ item.name }}</a>
-                {% endfor %}
-            </div>
-          </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" role="button" data-toggle="dropdown">Baby</a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                {% for item in baby %}
-                <a class="dropdown-item" href="{% url 'cat_det' item.slug %}">{{ item.name }}</a>
-                {% endfor %}
-            </div>
-          </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" role="button" data-toggle="dropdown">Іграшки</a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                {% for item in toys %}
-                <a class="dropdown-item" href="{% url 'cat_det' item.slug %}">{{ item.name }}</a>
-                {% endfor %}
-            </div>
-          </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" role="button" data-toggle="dropdown">Спорт</a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                {% for item in sport %}
-                <a class="dropdown-item" href="{% url 'cat_det' item.slug %}">{{ item.name }}</a>
-                {% endfor %}
             </div>
           </li>
         </ul>
@@ -293,7 +258,7 @@
   <!-- Footer -->
   <footer class="py-5 bg-dark">
     <div class="container">
-      <p class="m-0 text-center text-white">Copyright &copy; Your Website 2020</p>
+      <p class="m-0 text-center text-white">Казка 2021</p>
     </div>
     <!-- /.container -->
   </footer>

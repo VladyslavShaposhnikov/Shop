@@ -58,9 +58,30 @@ class Customer(models.Model):
     def __str__(self):
         return 'Клієнт: {} {}'.format(self.user.first_name, self.user.last_name)
 
-class BoyGirlBaby(Product):
+class Boy(Product):
     sizon = models.CharField(max_length=125, verbose_name='Сезон')
     size = models.TextField(verbose_name='Розмір')
     age = models.CharField(max_length=75, verbose_name='Вік')
     brand = models.CharField(max_length=75, verbose_name='Бренд',null=True,blank=True)
     material = models.CharField(max_length=75, verbose_name='Состав',null=True,blank=True)
+
+class Girl(Product):
+    sizon = models.CharField(max_length=125, verbose_name='Сезон')
+    size = models.TextField(verbose_name='Розмір')
+    age = models.CharField(max_length=75, verbose_name='Вік')
+    brand = models.CharField(max_length=75, verbose_name='Бренд',null=True,blank=True)
+    material = models.CharField(max_length=75, verbose_name='Состав',null=True,blank=True)
+
+class Baby(Product):
+    sizon = models.CharField(max_length=125, verbose_name='Сезон')
+    size = models.TextField(verbose_name='Розмір')
+    age = models.CharField(max_length=75, verbose_name='Вік')
+    brand = models.CharField(max_length=75, verbose_name='Бренд',null=True,blank=True)
+    material = models.CharField(max_length=75, verbose_name='Состав',null=True,blank=True)
+
+class Toys(Product):
+    age = models.CharField(max_length=75, verbose_name='Вік')
+
+class Sport(Product):
+    age = models.CharField(max_length=75, verbose_name='Вік')
+    brand = models.CharField(max_length=75, verbose_name='Бренд',null=True,blank=True)

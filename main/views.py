@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import Category, BoyGirlBaby
+from .models import Category, Boy, Baby, Girl, Toys, Sport
 from django.views.generic.detail import DetailView
 
 def get_cat(num):
@@ -21,6 +21,14 @@ context = {
     'sport' :sport,
 }
 
+GET_MODEL_SLUG = {
+    'boy':Boy,
+    'girl':Girl,
+    'baby':Baby,
+    'toys':Toys,
+    'sport':Sport
+}
+
 def index(request):
     return render(request, 'index.html', context)
 
@@ -28,8 +36,16 @@ def show_categories(request):
     context['categories'] = Category.objects.all()
     return render(request, "categories.html", context)
 
-def productdetail(request,slug):
-    context['product'] = BoyGirlBaby.objects.get(slug=slug)
+def boyproductdetail(request,slug):
+    context['product'] = Boy.objects.get(slug=slug)
+    return render(request, 'product_detaile.html', context)
+
+def girlproductdetail(request,slug):
+    context['product'] = Girl.objects.get(slug=slug)
+    return render(request, 'product_detaile.html', context)
+
+def babyproductdetail(request,slug):
+    context['product'] = Baby.objects.get(slug=slug)
     return render(request, 'product_detaile.html', context)
 
 def categorydetail(request,slug):

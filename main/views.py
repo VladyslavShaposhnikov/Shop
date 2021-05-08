@@ -36,16 +36,8 @@ def show_categories(request):
     context['categories'] = Category.objects.all()
     return render(request, "categories.html", context)
 
-def boyproductdetail(request,slug):
+def productdetail(request,slug):
     context['product'] = Boy.objects.get(slug=slug)
-    return render(request, 'product_detaile.html', context)
-
-def girlproductdetail(request,slug):
-    context['product'] = Girl.objects.get(slug=slug)
-    return render(request, 'product_detaile.html', context)
-
-def babyproductdetail(request,slug):
-    context['product'] = Baby.objects.get(slug=slug)
     return render(request, 'product_detaile.html', context)
 
 def categorydetail(request,slug):

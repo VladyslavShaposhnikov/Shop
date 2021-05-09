@@ -1,24 +1,25 @@
 from django.db import models
 from mptt.models import MPTTModel, TreeForeignKey
 from django.contrib.auth import get_user_model
-from colorfield.fields import ColorField
 from django.urls import reverse
 
 User = get_user_model()
+
+def get_product_url(obj, viewname):
+    ct_model = obj.__class__._meta.model_name
+    return reverse(viewname, kwargs={'ct_model':ct_model, 'slug':obj.slug})
 
 class Category(MPTTModel):
     name = models.CharField(max_length=50)
     slug = models.SlugField(unique=True)
     parent = TreeForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='children')
 
+
     class MPTTMeta:
         order_insertion_by = ['name']
 
     def __str__(self):
         return self.name
-
-    #def get_absolute_url(self):
-     #   return reverse('cat_det', kwargs={'slug':self.slug})
 
 class Product(models.Model):
     category = models.ForeignKey('Category', on_delete=models.CASCADE)
@@ -65,12 +66,24 @@ class Boy(Product):
     brand = models.CharField(max_length=75, verbose_name='Бренд',null=True,blank=True)
     material = models.CharField(max_length=75, verbose_name='Состав',null=True,blank=True)
 
+    def __str__(self):
+        return self.title
+
+    def get_absolute_url(self):
+        get_product_url(self, 'pro_det')
+
 class Girl(Product):
     sizon = models.CharField(max_length=125, verbose_name='Сезон')
     size = models.TextField(verbose_name='Розмір')
     age = models.CharField(max_length=75, verbose_name='Вік')
     brand = models.CharField(max_length=75, verbose_name='Бренд',null=True,blank=True)
     material = models.CharField(max_length=75, verbose_name='Состав',null=True,blank=True)
+
+    def __str__(self):
+        return self.title
+
+    def get_absolute_url(self):
+        get_product_url(self, 'pro_det')
 
 class Baby(Product):
     sizon = models.CharField(max_length=125, verbose_name='Сезон')
@@ -79,9 +92,27 @@ class Baby(Product):
     brand = models.CharField(max_length=75, verbose_name='Бренд',null=True,blank=True)
     material = models.CharField(max_length=75, verbose_name='Состав',null=True,blank=True)
 
+    def __str__(self):
+        return self.title
+
+    def get_absolute_url(self):
+        get_product_url(self, 'pro_det')
+
 class Toys(Product):
     age = models.CharField(max_length=75, verbose_name='Вік')
+
+    def __str__(self):
+        return self.title
+
+    def get_absolute_url(self):
+        get_product_url(self, 'pro_det')
 
 class Sport(Product):
     age = models.CharField(max_length=75, verbose_name='Вік')
     brand = models.CharField(max_length=75, verbose_name='Бренд',null=True,blank=True)
+
+    def __str__(self):
+        return self.title
+
+    def get_absolute_url(self):
+        get_product_url(self, 'pro_det')

@@ -21,14 +21,6 @@ context = {
     'sport' :sport,
 }
 
-GET_MODEL_SLUG = {
-    'boy':Boy,
-    'girl':Girl,
-    'baby':Baby,
-    'toys':Toys,
-    'sport':Sport
-}
-
 def index(request):
     return render(request, 'index.html', context)
 
@@ -36,9 +28,32 @@ def show_categories(request):
     context['categories'] = Category.objects.all()
     return render(request, "categories.html", context)
 
-def productdetail(request,slug):
-    context['product'] = Boy.objects.get(slug=slug)
-    return render(request, 'product_detaile.html', context)
+class Productdetail(DetailView):
+    
+    GET_MODEL_SLUG = {
+    'boy':Boy,
+    'girl':Girl,
+    'baby':Baby,
+    'toys':Toys,
+    'sport':Sport
+}
+    def dispatch(self, request, *args, **kwargs):
+        self.model = self.GET_MODEL_SLUG[kwargs['ct_model']]
+        self.queryset = self.model._base_manager.all()
+        return super().dispatch(request, *args, **kwargs)
+
+    context_object_name = 'product'
+    template_name = 'product_detaile.html'
+    slug_url_kwarg = 'slug'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['boys'] = boys
+        context['girls'] = girls
+        context['baby'] = baby
+        context['toys'] = toys
+        context['sport'] = sport
+        return context
 
 def categorydetail(request,slug):
     context['category'] = Category.objects.get(slug=slug)

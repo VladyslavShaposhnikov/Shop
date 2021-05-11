@@ -4,7 +4,7 @@
 {% block content %}
 <nav aria-label="breadcrumb" class="mt-3">
     <ol class="breadcrumb">
-      <li class="breadcrumb-item"><a href="/">Home</a></li>
+      <li class="breadcrumb-item"><a href="/">Головна</a></li>
       <li class="breadcrumb-item"><a href="{% url 'cat_det' product.category.slug %}">{{ product.category }} ({{ product.category.parent }})</a></li>
       <li class="breadcrumb-item active" aria-current="page">{{ product.title }}</li>
     </ol>
@@ -12,20 +12,23 @@
 <div class="row">
     <div class="col-md-4">
       <div class="card-body">
-        <h4 class="card-title">
-          <a>{{ product.title }}</a>
-        </h4>
       </div>
       <a><img src="{{ product.photo.url }}" class='img-fluid'></a>
     </div>
       <div class="col-md-8">
-        <h3>Цена    : {{ product.price }} грн.</h3>
-        <h6>Сезон   : {{ product.sizon }}</h6>
-        <h6>Розмір  : {{ product.size }}</h6>
-        <h6>Бренд   : {{ product.brand }}</h6>
-        <h6>Склад   : {{ product.material }}</h6>
-        <h6>Вік     : {{ product.age }}</h6>
+        <h3 class="card-title">
+          <a>{{ product.title }}</a>
+        </h3>
+        <h4>Цена    : {{ product.price }} грн.</h4>
         <h6>Опис    : {{ product.description }}</h6>
+
+        {% if product.category.parent.slug == 'boy' or 'girl' or 'baby' %}
+            {% include 'boy_girl_baby_product.html' %}
+        {% elif product.category.parent.slug == 'toys' %}
+            {% include 'toys_product.html' %}
+        {% else %}
+            {% include 'sport_product.html' %}
+        {% endif %}
       </div>
   </div>
 {% endblock %}

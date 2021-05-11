@@ -22,6 +22,7 @@ context = {
 }
 
 def index(request):
+    context['babies'] = Baby.objects.all()
     return render(request, 'index.html', context)
 
 def show_categories(request):

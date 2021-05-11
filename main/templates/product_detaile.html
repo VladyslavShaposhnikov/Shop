@@ -5,18 +5,18 @@
 <nav aria-label="breadcrumb" class="mt-3">
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="/">Home</a></li>
-      <li class="breadcrumb-item"><a href="{% url 'cat_det' product.category.slug %}">{{ product.category.parent }} / {{ product.category }}</a></li>
+      <li class="breadcrumb-item"><a href="{% url 'cat_det' product.category.slug %}">{{ product.category }} ({{ product.category.parent }})</a></li>
       <li class="breadcrumb-item active" aria-current="page">{{ product.title }}</li>
     </ol>
   </nav>
 <div class="row">
     <div class="col-md-4">
-      <a><img src="{{ product.photo.url }}" class='img-fluid'></a>
       <div class="card-body">
         <h4 class="card-title">
           <a>{{ product.title }}</a>
         </h4>
       </div>
+      <a><img src="{{ product.photo.url }}" class='img-fluid'></a>
     </div>
       <div class="col-md-8">
         <h3>Цена    : {{ product.price }} грн.</h3>

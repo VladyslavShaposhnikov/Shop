@@ -1,0 +1,41 @@
+{% extends 'index.html' %}
+{% block title %}Корзина{% endblock %}
+
+{% block content %}
+<nav aria-label="breadcrumb" class="mt-3">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="/">Головна</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Корзина</a></li>
+    </ol>
+</nav>
+<h3 class="text-centre mt-5 mb-5">
+    {% if cart.products.count != 0 %}
+        Ваша корзина 
+    {% else %}
+        Поки немає товарів у корзині, але є можливість це виправити натиснувши <a href="/">сюди</a>
+    {% endif %}
+</h3>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Назва товару</th>
+            <th scope="col">Фото</th>
+            <th scope="col">Ціна</th>
+            <th scope="col">Кількість</th>
+            <th scope="col">Кінцева сумма</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in cart.product_in_cart.all %}
+        <tr>
+            <th scope="row">{{ item.product.title }}</th>
+            <td class="w-25"><img src="{{ item.product.photo.url }}" class="img-fluid"></td>
+            <td>{{ item.product.price }}</td>
+            <td>{{ item.qty }}</td>
+            <td>{{ item.final_price }} грн.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

@@ -18,8 +18,8 @@
         <a href="{% url 'pro_det' category.parent.slug product.slug %}">{{ product.title }}</a>
       </h4>
       <h5>{{ product.price }} грн.</h5>
-      <a href="#">
-        <button class="btn btn-danger">Добавить в корзину</button>
+      <a href="{% url 'add-to-cart' ct_model=product.category.parent.slug slug=product.slug %}">
+        <button class="btn btn-outline-primary">Добавить в корзину</button>
       </a>
     </div>
   </div>

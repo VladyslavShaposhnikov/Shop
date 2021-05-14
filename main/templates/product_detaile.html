@@ -33,6 +33,7 @@
         {% else %}
             {% include 'sport_product.html' %}
         {% endif %}
+        <a href="{% url 'add-to-cart' ct_model=product.category.parent.slug slug=product.slug %}"><button class="btn btn-outline-primary">В кошик</button></a>
       </div>
   </div>
 {% endblock %}

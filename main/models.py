@@ -34,9 +34,11 @@ class Product(models.Model):
 
 class Cart(models.Model):
     customer = models.ForeignKey('Customer', on_delete=models.CASCADE)
-    product_in_cart = models.ManyToManyField('CartProduct', blank=True)
-    final_price = models.DecimalField(decimal_places=2, max_digits=9, verbose_name='Кінцева сумма')
+    product_in_cart = models.ManyToManyField('CartProduct', blank=True, verbose_name='Продукти в корзині')
+    final_price = models.DecimalField(default=0, decimal_places=2, max_digits=9, verbose_name='Кінцева сумма')
     final_count_of_items = models.PositiveIntegerField(verbose_name='Кількість всіх продуктів у корзині', default=0)
+    in_order = models.BooleanField(default=False)
+    for_anonymous_user = models.BooleanField(default=False)
 
     def __str__(self):
         return 'Корзина покупця: {} {}'.format(self.customer.user.first_name, self.customer.user.last_name)
@@ -50,6 +52,10 @@ class CartProduct(models.Model):
 
     def __str__(self):
         return 'Продукт кошика: {}'.format(self.product.title)
+
+    def save(self, *args, **kwargs):
+        self.final_price = self.qty * self.product.price
+        super().save(*args,**kwargs)
 
 class Customer(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)

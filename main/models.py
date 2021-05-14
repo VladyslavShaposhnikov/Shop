@@ -43,6 +43,15 @@ class Cart(models.Model):
     def __str__(self):
         return 'Корзина покупця: {} {}'.format(self.customer.user.first_name, self.customer.user.last_name)
 
+    def save(self, *args, **kwargs):
+        cart_data = self.product_in_cart.aggregate(models.Sum('final_price'), models.Count('id'))
+        if cart_data.get('final_price__sum'):
+            self.final_price = cart_data.get('final_price__sum')
+        else:
+            self.final_price = 0
+        self.final_count_of_items = cart_data.get('id__count')
+        super().save(*args, **kwargs)
+
 class CartProduct(models.Model):
     owner = models.ForeignKey('Customer', on_delete=models.CASCADE)
     basket = models.ForeignKey('Cart', on_delete=models.CASCADE)

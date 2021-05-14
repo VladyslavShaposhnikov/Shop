@@ -35,6 +35,12 @@
             <td>{{ item.final_price }} грн.</td>
         </tr>
         {% endfor %}
+        <tr>
+            <td colspan="2"></td>
+            <td>Разом:</td>
+            <td>{{ cart.final_count_of_items }}</td>
+            <td><strong>{{ cart.final_price }} грн.</strong></td>
+        </tr>
     </tbody>
 </table>
 

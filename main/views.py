@@ -99,4 +99,5 @@ def add_to_cart(request, *args, **kwargs):
     )
     if created:
         cart.product_in_cart.add(cart_prod)
+    cart.save()
     return HttpResponseRedirect('/cart', context)

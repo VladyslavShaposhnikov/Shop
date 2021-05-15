@@ -79,6 +79,8 @@ def categorydetail(request,slug):
     else:
         model = Baby
     context['cats'] = model.objects.filter(category__slug=slug)
+    cart_owner = Customer.objects.get(user=request.user)
+    context['cart'] = Cart.objects.get(customer=cart_owner)
     return render(request, 'category_detail.html', context)
 
 def cart(request):

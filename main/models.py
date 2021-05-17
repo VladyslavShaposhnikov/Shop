@@ -44,12 +44,13 @@ class Cart(models.Model):
         return 'Корзина покупця: {} {}'.format(self.customer.user.first_name, self.customer.user.last_name)
 
     def save(self, *args, **kwargs):
-        cart_data = self.product_in_cart.aggregate(models.Sum('final_price'), models.Count('id'))
+        cart_data = self.product_in_cart.aggregate(models.Sum('final_price'), models.Sum('qty'))
         if cart_data.get('final_price__sum'):
             self.final_price = cart_data.get('final_price__sum')
+            self.final_count_of_items = cart_data.get('qty__sum')
         else:
             self.final_price = 0
-        self.final_count_of_items = cart_data.get('id__count')
+            self.final_count_of_items = 0
         super().save(*args, **kwargs)
 
 class CartProduct(models.Model):
@@ -57,7 +58,7 @@ class CartProduct(models.Model):
     basket = models.ForeignKey('Cart', on_delete=models.CASCADE)
     product = models.ForeignKey('Product', on_delete=models.CASCADE)
     qty = models.PositiveIntegerField(default=1)
-    final_price = models.DecimalField(decimal_places=2, max_digits=9, verbose_name='Кінцева сумма')
+    final_price = models.DecimalField(default=0, decimal_places=2, max_digits=9, verbose_name='Кінцева сумма')
 
     def __str__(self):
         return 'Продукт кошика: {}'.format(self.product.title)

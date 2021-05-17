@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from .models import *
+from django.contrib import messages
 from django.views.generic.detail import DetailView
 from django.http import HttpResponseRedirect
 
@@ -20,7 +21,7 @@ context = {
     'baby'  :baby,
     'toys'  :toys,
     'sport' :sport,
-}
+    } 
 
 def index(request):
     context['babies'] = Baby.objects.all()
@@ -96,10 +97,43 @@ def add_to_cart(request, *args, **kwargs):
     cart_prod, created = CartProduct.objects.get_or_create(
         owner=cart_owner,
         basket=cart,
-        product=prod,
-        final_price=prod.price
+        product=prod
     )
     if created:
         cart.product_in_cart.add(cart_prod)
     cart.save()
+    messages.add_message(request, messages.INFO, "'{}' додано до кошику".format(prod.title))
+    return HttpResponseRedirect('/cart', context)
+
+def delete_from_cart(request, *args, **kwargs):
+    ct_model, slug = kwargs.get('ct_model'), kwargs.get('slug')
+    cart_owner = Customer.objects.get(user=request.user)
+    cart = Cart.objects.get(customer=cart_owner, in_order=False)
+    prod = Product.objects.get(slug=slug)
+    cart_prod = CartProduct.objects.get(
+        owner=cart_owner,
+        basket=cart,
+        product=prod
+    )
+    cart.product_in_cart.remove(cart_prod)
+    cart_prod.delete()
+    cart.save()
+    messages.add_message(request, messages.INFO, "'{}' видалено з кошику".format(prod.title))
+    return HttpResponseRedirect('/cart', context)
+
+def change_qty_cartproduct(request, *args, **kwargs):
+    ct_model, slug = kwargs.get('ct_model'), kwargs.get('slug')
+    cart_owner = Customer.objects.get(user=request.user)
+    cart = Cart.objects.get(customer=cart_owner, in_order=False)
+    prod = Product.objects.get(slug=slug)
+    cart_prod = CartProduct.objects.get(
+        owner=cart_owner,
+        basket=cart,
+        product=prod
+    )
+    num = int(request.POST.get('qty'))
+    cart_prod.qty = num
+    cart_prod.save()
+    cart.save()
+    messages.add_message(request, messages.INFO, "Ви змінили кількість на '{}'".format(num))
     return HttpResponseRedirect('/cart', context)

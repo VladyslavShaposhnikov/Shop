@@ -101,9 +101,11 @@ def add_to_cart(request, *args, **kwargs):
     )
     if created:
         cart.product_in_cart.add(cart_prod)
+        messages.add_message(request, messages.INFO, "'{}' додано до кошику".format(prod.title))
+    else:
+        messages.add_message(request, messages.INFO, "'{}' вже є у вашому кошику".format(prod.title))
     cart.save()
-    messages.add_message(request, messages.INFO, "'{}' додано до кошику".format(prod.title))
-    return HttpResponseRedirect('/cart', context)
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'), context)
 
 def delete_from_cart(request, *args, **kwargs):
     ct_model, slug = kwargs.get('ct_model'), kwargs.get('slug')
@@ -135,5 +137,5 @@ def change_qty_cartproduct(request, *args, **kwargs):
     cart_prod.qty = num
     cart_prod.save()
     cart.save()
-    messages.add_message(request, messages.INFO, "Ви змінили кількість на '{}'".format(num))
+    messages.add_message(request, messages.INFO, "Ви змінили кількість '{}' на '{}'".format(prod.title, num))
     return HttpResponseRedirect('/cart', context)

@@ -24,14 +24,8 @@ context = {
     'sport' :sport,
     } 
 
-""" def index(request):
-    context['babies'] = Baby.objects.filter(father=None)
-    cart_owner = Customer.objects.get(user=request.user)
-    context['cart'] = Cart.objects.get(customer=cart_owner)
-    return render(request, 'index.html', context) """
-
 def index(request):
-    context['babies'] = Baby.objects.filter(father=None)
+    context['babies'] = Baby.objects.filter(father=None).order_by('-pub_date')
     cart_owner = Customer.objects.get(user=request.user)
     context['cart'] = Cart.objects.get(customer=cart_owner)
     return render(request, 'index.html', context)

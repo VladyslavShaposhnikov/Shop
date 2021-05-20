@@ -3,6 +3,7 @@ from mptt.models import MPTTModel, TreeForeignKey
 from django.contrib.auth import get_user_model
 from django.urls import reverse
 from django.utils import timezone
+import datetime
 
 User = get_user_model()
 
@@ -29,7 +30,7 @@ class Product(models.Model):
     slug = models.SlugField(unique=True)
     price = models.DecimalField(decimal_places=2, max_digits=9, verbose_name='Ціна')
     photo = models.ImageField(verbose_name='Зображення')
-    pub_date = models.DateTimeField(auto_now=True)
+    pub_date = models.DateTimeField(verbose_name='Дата публікації')
 
     def new_product(self):
         return self.pub_date >= (timezone.now() - datetime.timedelta(days=30))

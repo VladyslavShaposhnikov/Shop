@@ -27,7 +27,10 @@
     </div>
       <div class="col-md-8">
         <h3 class="card-title">
-          <a>{{ product.title }}</a>
+          <a>{{ product.title }}
+            {% if product.new_product == True %}
+            <a class="text-danger">(NEW)</a>
+            {% endif %}</a>
         </h3>
         <h4>Ціна    : {{ product.price }} грн.</h4>
         <h6>Опис    : {{ product.description }}</h6>

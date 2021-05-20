@@ -25,7 +25,11 @@
     <a href="{% url 'pro_det' category.parent.slug product.slug %}"><img class="card-img-top" src="{{ product.photo.url }}" alt=""></a>
     <div class="card-body">
       <h4 class="card-title">
-        <a href="{% url 'pro_det' category.parent.slug product.slug %}">{{ product.title }}</a>
+        <a href="{% url 'pro_det' category.parent.slug product.slug %}">{{ product.title }}
+          {% if product.new_product == True %}
+          <a class="text-danger">(NEW)</a>
+          {% endif %}
+        </a>
       </h4>
       <h5>{{ product.price }} грн.</h5>
       <a href="{% url 'add-to-cart' ct_model=product.category.parent.slug slug=product.slug %}">

@@ -2,6 +2,7 @@ from django.db import models
 from mptt.models import MPTTModel, TreeForeignKey
 from django.contrib.auth import get_user_model
 from django.urls import reverse
+from django.utils import timezone
 
 User = get_user_model()
 
@@ -28,6 +29,10 @@ class Product(models.Model):
     slug = models.SlugField(unique=True)
     price = models.DecimalField(decimal_places=2, max_digits=9, verbose_name='Ціна')
     photo = models.ImageField(verbose_name='Зображення')
+    pub_date = models.DateTimeField(auto_now=True)
+
+    def new_product(self):
+        return self.pub_date >= (timezone.now() - datetime.timedelta(days=30))
     
     def __str__(self):
         return self.title
@@ -77,39 +82,51 @@ class Customer(models.Model):
 
 class Boy(Product):
     sizon = models.CharField(max_length=125, verbose_name='Сезон')
-    size = models.TextField(verbose_name='Розмір')
+    size = models.CharField(verbose_name='Розмір', max_length=75)
     age = models.CharField(max_length=75, verbose_name='Вік')
     brand = models.CharField(max_length=75, verbose_name='Бренд',null=True,blank=True)
     material = models.CharField(max_length=75, verbose_name='Состав',null=True,blank=True)
+    father = models.ForeignKey('self',related_name='variants', on_delete=models.CASCADE, blank=True, null=True)
 
     def __str__(self):
-        return self.title
+        if self.father == None:
+            return '__{}__'.format(self.title)
+        else:
+            return '{}({})'.format(self.title, self.size)
 
     def get_absolute_url(self):
         get_product_url(self, 'pro_det')
 
 class Girl(Product):
     sizon = models.CharField(max_length=125, verbose_name='Сезон')
-    size = models.TextField(verbose_name='Розмір')
+    size = models.CharField(verbose_name='Розмір', max_length=75)
     age = models.CharField(max_length=75, verbose_name='Вік')
     brand = models.CharField(max_length=75, verbose_name='Бренд',null=True,blank=True)
     material = models.CharField(max_length=75, verbose_name='Состав',null=True,blank=True)
+    father = models.ForeignKey('self',related_name='variants', on_delete=models.CASCADE, blank=True, null=True)
 
     def __str__(self):
-        return self.title
+        if self.father == None:
+            return '__{}__'.format(self.title)
+        else:
+            return '{}({})'.format(self.title, self.size)
 
     def get_absolute_url(self):
         get_product_url(self, 'pro_det')
 
 class Baby(Product):
     sizon = models.CharField(max_length=125, verbose_name='Сезон')
-    size = models.TextField(verbose_name='Розмір')
+    size = models.CharField(verbose_name='Розмір', max_length=75)
     age = models.CharField(max_length=75, verbose_name='Вік')
     brand = models.CharField(max_length=75, verbose_name='Бренд',null=True,blank=True)
     material = models.CharField(max_length=75, verbose_name='Состав',null=True,blank=True)
+    father = models.ForeignKey('self',related_name='variants', on_delete=models.CASCADE, blank=True, null=True)
 
     def __str__(self):
-        return self.title
+        if self.father == None:
+            return '__{}__'.format(self.title)
+        else:
+            return '{}({})'.format(self.title, self.size)
 
     def get_absolute_url(self):
         get_product_url(self, 'pro_det')

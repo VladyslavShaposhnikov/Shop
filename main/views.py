@@ -2,6 +2,7 @@ from django.shortcuts import render
 from .models import *
 from django.contrib import messages
 from django.views.generic.detail import DetailView
+from django.views.generic.list import ListView
 from django.http import HttpResponseRedirect
 
 def get_cat(num):
@@ -23,8 +24,14 @@ context = {
     'sport' :sport,
     } 
 
+""" def index(request):
+    context['babies'] = Baby.objects.filter(father=None)
+    cart_owner = Customer.objects.get(user=request.user)
+    context['cart'] = Cart.objects.get(customer=cart_owner)
+    return render(request, 'index.html', context) """
+
 def index(request):
-    context['babies'] = Baby.objects.all()
+    context['babies'] = Baby.objects.filter(father=None)
     cart_owner = Customer.objects.get(user=request.user)
     context['cart'] = Cart.objects.get(customer=cart_owner)
     return render(request, 'index.html', context)
@@ -60,6 +67,7 @@ class Productdetail(DetailView):
         context['sport'] = sport
         cart_owner = Customer.objects.get(user=self.request.user)
         context['cart'] = Cart.objects.get(customer=cart_owner)
+        context['size_of_prod'] = self.model.objects.get(slug=self.kwargs['slug'])
         return context
 
 Boys = ('shoes','blouse', 'jacket', 'underwear', 'socks', 'reglan', 'sportswear', 't-short', 'hat', 'pants')
@@ -79,7 +87,7 @@ def categorydetail(request,slug):
         model = Sport
     else:
         model = Baby
-    context['cats'] = model.objects.filter(category__slug=slug)
+    context['cats'] = model.objects.filter(father=None, category__slug=slug)
     cart_owner = Customer.objects.get(user=request.user)
     context['cart'] = Cart.objects.get(customer=cart_owner)
     return render(request, 'category_detail.html', context)
@@ -87,6 +95,9 @@ def categorydetail(request,slug):
 def cart(request):
     cart_owner = Customer.objects.get(user=request.user)
     context['cart'] = Cart.objects.get(customer=cart_owner)
+    context['baby'] = Baby.objects.all()
+    context['boy'] = Boy.objects.all()
+    context['girl'] = Girl.objects.all()
     return render(request, 'cart.html', context)
 
 def add_to_cart(request, *args, **kwargs):

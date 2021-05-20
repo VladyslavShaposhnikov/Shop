@@ -35,6 +35,12 @@
 -->
 <h6>Сезон     : {{ product.sizon }}</h6>
 <h6>Розмір    : {{ product.size }}</h6>
+   {% if size_of_prod.variants.all %}
+  <h6>Доступні розміри    : </h6>
+    {% for sizes in size_of_prod.variants.all %}
+    <a href="{% url 'pro_det' sizes.category.parent.slug sizes.slug %}"><button type="button" class="btn btn-light">{{ sizes.size }}</button></a>
+    {% endfor %}
+  {% endif %} 
 <h6>Вік       : {{ product.age }}</h6>
 <h6>Матеріал  : {{ product.material }}</h6>
 <h6>Бренд     : {{ product.brand }}</h6>

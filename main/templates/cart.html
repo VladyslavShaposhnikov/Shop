@@ -50,6 +50,13 @@
                     <br>
                     <input type="submit" class="btn btn-outline-primary" value="Змінити кількість">
                 </form>
+                {% if item.product.category.parent.slug == 'baby' %}
+                <h6>Розмір: {{ item.product.baby.size }}</h6>
+                {% elif item.product.category.parent.slug == 'boy' %}
+                <h6>Розмір: {{ item.product.boy.size }}</h6>
+                {% elif item.product.category.parent.slug == 'girl' %}
+                <h6>Розмір: {{ item.product.girl.size }}</h6>
+                {% endif %}
             </td>
             <td>{{ item.final_price }} грн.</td>
             <td>

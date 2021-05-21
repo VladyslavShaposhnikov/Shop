@@ -72,16 +72,15 @@ Spor = ('cycling', 'skateboards', 'sled', 'scooters')
 def categorydetail(request,slug):
     context['category'] = Category.objects.get(slug=slug)
     if slug in Boys:
-        model = Boy
+        context['cats'] = Boy.objects.filter(father=None, category__slug=slug)
     elif slug in Girls:
-        model = Girl
+        context['cats'] = Girl.objects.filter(father=None, category__slug=slug)
     elif slug in Toy:
-        model = Toys
+        context['cats'] = Toys.objects.filter(category__slug=slug)
     elif slug in Spor:
-        model = Sport
+        context['cats'] = Sport.objects.filter(category__slug=slug)
     else:
-        model = Baby
-    context['cats'] = model.objects.filter(father=None, category__slug=slug)
+        context['cats'] = Baby.objects.filter(father=None, category__slug=slug)
     cart_owner = Customer.objects.get(user=request.user)
     context['cart'] = Cart.objects.get(customer=cart_owner)
     return render(request, 'category_detail.html', context)
@@ -89,9 +88,9 @@ def categorydetail(request,slug):
 def cart(request):
     cart_owner = Customer.objects.get(user=request.user)
     context['cart'] = Cart.objects.get(customer=cart_owner)
-    context['baby'] = Baby.objects.all()
-    context['boy'] = Boy.objects.all()
-    context['girl'] = Girl.objects.all()
+    context['baby_size'] = Baby.objects.all()
+    context['boy_size'] = Boy.objects.all()
+    context['girl_size'] = Girl.objects.all()
     return render(request, 'cart.html', context)
 
 def add_to_cart(request, *args, **kwargs):

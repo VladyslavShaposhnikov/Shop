@@ -155,3 +155,13 @@ def searching(request):
     else:
         context['babies'] = Baby.objects.filter(father=None).order_by('-pub_date')
     return render(request,'search_temp.html', context)
+
+def about_us(request):
+    cart_owner = Customer.objects.get(user=request.user)
+    context['cart'] = Cart.objects.get(customer=cart_owner)
+    return render(request, 'about_us.html', context)
+
+def contacts(request):
+    cart_owner = Customer.objects.get(user=request.user)
+    context['cart'] = Cart.objects.get(customer=cart_owner)
+    return render(request, 'contact.html', context)

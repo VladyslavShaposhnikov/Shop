@@ -11,4 +11,6 @@ urlpatterns = [
     path('delete-from-cart/<str:ct_model>/<slug:slug>/', delete_from_cart, name='delete-from-cart'),
     path('change-qty/<str:ct_model>/<slug:slug>/', change_qty_cartproduct, name='change-qty'),
     path('search/', searching, name='search'),
+    path('about-us/', about_us, name='about-us'),
+    path('contacts/', contacts, name='contact'),
 ]

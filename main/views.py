@@ -143,3 +143,15 @@ def change_qty_cartproduct(request, *args, **kwargs):
     cart.save()
     messages.add_message(request, messages.INFO, "Ви змінили кількість '{}' на '{}'".format(prod.title, num))
     return HttpResponseRedirect('/cart', context)
+
+def searching(request):
+    search_query = request.GET.get('search1', '')
+    if search_query:
+        context['babies'] = Baby.objects.filter(title__contains=search_query).filter(father=None)
+        context['b'] = Boy.objects.filter(title__contains=search_query).filter(father=None)
+        context['g'] = Girl.objects.filter(title__contains=search_query).filter(father=None)
+        context['t'] = Toys.objects.filter(title__contains=search_query)
+        context['s'] = Sport.objects.filter(title__contains=search_query)
+    else:
+        context['babies'] = Baby.objects.filter(father=None).order_by('-pub_date')
+    return render(request,'search_temp.html', context)

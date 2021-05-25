@@ -21,16 +21,14 @@
 {% endif %}
 <div class="row">
     <div class="col-md-4">
-      <div class="card-body">
-      </div>
+      {% if product.new_product == True %}
+      <div class="badge bg-danger text-white position-absolute" style="top: 0.5rem; right: 0.5rem">NEW</div>
+      {% endif %}
       <a><img src="{{ product.photo.url }}" class='img-fluid'></a>
     </div>
       <div class="col-md-8">
         <h3 class="card-title">
-          <a>{{ product.title }}
-            {% if product.new_product == True %}
-            <a class="text-danger">(NEW)</a>
-            {% endif %}</a>
+          <a>{{ product.title }}</a>
         </h3>
         <h4>Ціна    : {{ product.price }} грн.</h4>
         <h6>Опис    : {{ product.description }}</h6>

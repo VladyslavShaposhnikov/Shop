@@ -22,14 +22,13 @@
 {% for product in cats %}
 <div class="col-lg-4 col-md-6 mb-4">
   <div class="card h-100">
+    {% if product.new_product == True %}
+      <div class="badge bg-danger text-white position-absolute" style="top: 0.5rem; right: 0.5rem">NEW</div>
+      {% endif %}
     <a href="{% url 'pro_det' category.parent.slug product.slug %}"><img class="card-img-top" src="{{ product.photo.url }}" alt=""></a>
     <div class="card-body">
       <h4 class="card-title">
-        <a href="{% url 'pro_det' category.parent.slug product.slug %}">{{ product.title }}
-          {% if product.new_product == True %}
-          <a class="text-danger">(NEW)</a>
-          {% endif %}
-        </a>
+        <a href="{% url 'pro_det' category.parent.slug product.slug %}">{{ product.title }}</a>
       </h4>
       <h5>{{ product.price }} грн.</h5>
       <a href="{% url 'add-to-cart' ct_model=product.category.parent.slug slug=product.slug %}">

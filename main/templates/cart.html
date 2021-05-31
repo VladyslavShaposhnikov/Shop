@@ -5,10 +5,10 @@
 <nav aria-label="breadcrumb" class="mt-3">
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="/">Головна</a></li>
-      <li class="breadcrumb-item active" aria-current="page">Корзина</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Кошик</a></li>
     </ol>
 </nav>
-<h3 class="text-centre mt-5 mb-5">
+<h3 class="text-center mt-5 mb-5">
     {% if cart.product_in_cart.count != 0 %}
         Ваш кошик 
     {% else %}
@@ -71,6 +71,7 @@
             <td>Разом:</td>
             <td>{{ cart.final_count_of_items }}</td>
             <td><strong>{{ cart.final_price }} грн.</strong></td>
+            <td><a href="{% url 'checkout' %}"><button class="btn btn-primary">Оформити замовлення</button></a></td>
         </tr>
     </tbody>
 </table>

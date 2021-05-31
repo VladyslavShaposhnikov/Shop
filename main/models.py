@@ -39,7 +39,7 @@ class Product(models.Model):
         return self.title
 
 class Cart(models.Model):
-    customer = models.ForeignKey('Customer', on_delete=models.CASCADE)
+    customer = models.ForeignKey('Customer', null=True, verbose_name='Власник кошика', on_delete=models.CASCADE)
     product_in_cart = models.ManyToManyField('CartProduct', blank=True, verbose_name='Продукти в корзині')
     final_price = models.DecimalField(default=0, decimal_places=2, max_digits=9, verbose_name='Кінцева сумма')
     final_count_of_items = models.PositiveIntegerField(verbose_name='Кількість всіх продуктів у корзині', default=0)
@@ -47,17 +47,17 @@ class Cart(models.Model):
     for_anonymous_user = models.BooleanField(default=False)
 
     def __str__(self):
-        return 'Корзина покупця: {} {}'.format(self.customer.user.first_name, self.customer.user.last_name)
+        return 'Корзина покупця: {} '.format(self.id)
 
-    def save(self, *args, **kwargs):
-        cart_data = self.product_in_cart.aggregate(models.Sum('final_price'), models.Sum('qty'))
-        if cart_data.get('final_price__sum'):
-            self.final_price = cart_data.get('final_price__sum')
-            self.final_count_of_items = cart_data.get('qty__sum')
-        else:
-            self.final_price = 0
-            self.final_count_of_items = 0
-        super().save(*args, **kwargs)
+def recalculate_cart(cart):
+    cart_data = cart.product_in_cart.aggregate(models.Sum('final_price'), models.Sum('qty'))
+    if cart_data.get('final_price__sum'):
+        cart.final_price = cart_data.get('final_price__sum')
+        cart.final_count_of_items = cart_data.get('qty__sum')
+    else:
+        cart.final_price = 0
+        cart.final_count_of_items = 0
+    cart.save()
 
 class CartProduct(models.Model):
     owner = models.ForeignKey('Customer', on_delete=models.CASCADE)
@@ -75,8 +75,9 @@ class CartProduct(models.Model):
 
 class Customer(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    phone_number = models.CharField(max_length=75,verbose_name='Номер телефону')
-    adress = models.CharField(max_length=75,verbose_name='Домашній адрес')
+    phone_number = models.CharField(max_length=75,verbose_name='Номер телефону', null=True, blank=True)
+    adress = models.CharField(max_length=75,verbose_name='Домашній адрес', null=True, blank=True)
+    orders = models.ManyToManyField('Order', verbose_name='Замовлення покупця', related_name='related_customer')
 
     def __str__(self):
         return 'Клієнт: {} {}'.format(self.user.first_name, self.user.last_name)
@@ -150,3 +151,49 @@ class Sport(Product):
 
     def get_absolute_url(self):
         get_product_url(self, 'pro_det')
+
+class Order(models.Model):
+    STATUS_NEW = 'new'
+    STATUS_IN_PROGRESS = 'in_progress'
+    STATUS_READY = 'is_ready'
+    STATUS_COMPLETED = 'completed'
+
+    BUYING_TYPE_SELF = 'self'
+    BUYING_TYPE_DELIVERY = 'delivery'
+
+    STATUS_CHOISES = {
+        (STATUS_NEW, 'Нове зомовлення'),
+        (STATUS_IN_PROGRESS, 'Замовлення обробляється'),
+        (STATUS_READY, 'Замовлення готове'),
+        (STATUS_COMPLETED, 'Замовлення виконане')
+    }
+
+    BUYING_TYPE_CHOISES = {
+        (BUYING_TYPE_SELF, 'Самовивіз'),
+        (BUYING_TYPE_DELIVERY, 'Доставка')
+    }
+
+    customer = models.ForeignKey('Customer', verbose_name='Замовник', on_delete=models.CASCADE)
+    first_name = models.CharField(max_length=75, verbose_name="Ім'я")
+    last_name = models.CharField(max_length=75, verbose_name='Прізвище')
+    phone = models.CharField(max_length=75, verbose_name='Телефон')
+    adress = models.CharField(max_length=550, verbose_name='Адрес доставки', null=True, blank=True)
+    status = models.CharField(
+        max_length = 225,
+        verbose_name = 'Статус замовлення',
+        choices = STATUS_CHOISES,
+        default = STATUS_NEW
+    )
+    buying_type = models.CharField(
+        max_length = 225,
+        verbose_name = 'Тип замовлення',
+        choices = BUYING_TYPE_CHOISES,
+        default = BUYING_TYPE_SELF
+    )
+    comment = models.TextField(verbose_name='Коментарій до замовлення', null=True, blank=True)
+    created_data = models.DateTimeField(auto_now=True, verbose_name='Дата створення замовлення')
+    order_date = models.DateField(default=timezone.now(), verbose_name='Бажана дата отримання замовлення')
+    cart = models.ForeignKey(Cart, verbose_name='Кошик', on_delete=models.CASCADE, null=True, blank=True)
+
+    def __str__(self):
+        return '{} - {}'.format(self.last_name, self.id)

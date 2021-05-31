@@ -7,19 +7,28 @@
       <li class="breadcrumb-item active" aria-current="page">Результати запиту</a></li>
     </ol>
 </nav>
+{% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>{{ message }}</strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    {% endfor %}
+{% endif %}
 <div class="row">
     {% if babies %}
     {% for item in babies %}
     <div class="col-lg-4 col-md-6 mb-4">
       <div class="card h-100">
+        {% if item.new_product == True %}
+      <div class="badge bg-danger text-white position-absolute" style="top: 0.5rem; right: 0.5rem">NEW</div>
+      {% endif %}
         <a href="{% url 'pro_det' item.category.parent.slug item.slug %}"><img class="card-img-top" src="{{ item.photo.url }}" alt=""></a>
         <div class="card-body">
           <h4 class="card-title">
-            <a href="{% url 'pro_det' item.category.parent.slug item.slug %}">{{ item.title }}
-              {% if item.new_product == True %}
-              <a class="text-danger">(NEW)</a>
-              {% endif %}
-            </a>
+            <a href="{% url 'pro_det' item.category.parent.slug item.slug %}">{{ item.title }}</a>
           </h4>
           <h5>{{ item.price }} грн.</h5>
           <a href="{% url 'add-to-cart' ct_model=item.category.parent.slug slug=item.slug %}"><button class="btn btn-outline-primary">В кошик</button></a>
@@ -32,14 +41,13 @@
     {% for item in b %}
     <div class="col-lg-4 col-md-6 mb-4">
       <div class="card h-100">
+        {% if item.new_product == True %}
+      <div class="badge bg-danger text-white position-absolute" style="top: 0.5rem; right: 0.5rem">NEW</div>
+      {% endif %}
         <a href="{% url 'pro_det' item.category.parent.slug item.slug %}"><img class="card-img-top" src="{{ item.photo.url }}" alt=""></a>
         <div class="card-body">
           <h4 class="card-title">
-            <a href="{% url 'pro_det' item.category.parent.slug item.slug %}">{{ item.title }}
-              {% if item.new_product == True %}
-              <a class="text-danger">(NEW)</a>
-              {% endif %}
-            </a>
+            <a href="{% url 'pro_det' item.category.parent.slug item.slug %}">{{ item.title }}</a>
           </h4>
           <h5>{{ item.price }} грн.</h5>
           <a href="{% url 'add-to-cart' ct_model=item.category.parent.slug slug=item.slug %}"><button class="btn btn-outline-primary">В кошик</button></a>
@@ -52,14 +60,13 @@
     {% for item in g %}
     <div class="col-lg-4 col-md-6 mb-4">
       <div class="card h-100">
+        {% if item.new_product == True %}
+      <div class="badge bg-danger text-white position-absolute" style="top: 0.5rem; right: 0.5rem">NEW</div>
+      {% endif %}
         <a href="{% url 'pro_det' item.category.parent.slug item.slug %}"><img class="card-img-top" src="{{ item.photo.url }}" alt=""></a>
         <div class="card-body">
           <h4 class="card-title">
-            <a href="{% url 'pro_det' item.category.parent.slug item.slug %}">{{ item.title }}
-              {% if item.new_product == True %}
-              <a class="text-danger">(NEW)</a>
-              {% endif %}
-            </a>
+            <a href="{% url 'pro_det' item.category.parent.slug item.slug %}">{{ item.title }}</a>
           </h4>
           <h5>{{ item.price }} грн.</h5>
           <a href="{% url 'add-to-cart' ct_model=item.category.parent.slug slug=item.slug %}"><button class="btn btn-outline-primary">В кошик</button></a>
@@ -72,14 +79,13 @@
     {% for item in t %}
     <div class="col-lg-4 col-md-6 mb-4">
       <div class="card h-100">
+        {% if item.new_product == True %}
+      <div class="badge bg-danger text-white position-absolute" style="top: 0.5rem; right: 0.5rem">NEW</div>
+      {% endif %}
         <a href="{% url 'pro_det' item.category.parent.slug item.slug %}"><img class="card-img-top" src="{{ item.photo.url }}" alt=""></a>
         <div class="card-body">
           <h4 class="card-title">
-            <a href="{% url 'pro_det' item.category.parent.slug item.slug %}">{{ item.title }}
-              {% if item.new_product == True %}
-              <a class="text-danger">(NEW)</a>
-              {% endif %}
-            </a>
+            <a href="{% url 'pro_det' item.category.parent.slug item.slug %}">{{ item.title }}</a>
           </h4>
           <h5>{{ item.price }} грн.</h5>
           <a href="{% url 'add-to-cart' ct_model=item.category.parent.slug slug=item.slug %}"><button class="btn btn-outline-primary">В кошик</button></a>
@@ -92,14 +98,13 @@
     {% for item in s %}
     <div class="col-lg-4 col-md-6 mb-4">
       <div class="card h-100">
+        {% if item.new_product == True %}
+      <div class="badge bg-danger text-white position-absolute" style="top: 0.5rem; right: 0.5rem">NEW</div>
+      {% endif %}
         <a href="{% url 'pro_det' item.category.parent.slug item.slug %}"><img class="card-img-top" src="{{ item.photo.url }}" alt=""></a>
         <div class="card-body">
           <h4 class="card-title">
-            <a href="{% url 'pro_det' item.category.parent.slug item.slug %}">{{ item.title }}
-              {% if item.new_product == True %}
-              <a class="text-danger">(NEW)</a>
-              {% endif %}
-            </a>
+            <a href="{% url 'pro_det' item.category.parent.slug item.slug %}">{{ item.title }}</a>
           </h4>
           <h5>{{ item.price }} грн.</h5>
           <a href="{% url 'add-to-cart' ct_model=item.category.parent.slug slug=item.slug %}"><button class="btn btn-outline-primary">В кошик</button></a>

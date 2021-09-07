@@ -5,3 +5,4 @@ settings.py
 venv
 db.sqlite3
 whole.json
+static

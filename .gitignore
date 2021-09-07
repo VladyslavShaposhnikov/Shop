@@ -1,0 +1,7 @@
+.vscode
+*__pycache__
+migrations
+settings.py
+venv
+db.sqlite3
+whole.json
